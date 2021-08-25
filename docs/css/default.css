@@ -1,0 +1,41 @@
+/* 
+  Basic syntax: https://www.w3schools.com/Css/css_syntax.asp
+  Selector syntax: https://www.w3schools.com/cssref/css_selectors.asp
+
+  Elements you may want to style:
+    - h1
+    - body
+    - nav (for the navigation links at the top of the page)
+    - a (for links)
+    - a:visited (for what visited links look like)
+    - ol (for ordered lists)
+    - ul (for unordered lists)
+*/
+
+
+/* 
+  Example: this CSS rule styles the footer element to
+  distinguish it from the rest of the page
+*/
+footer {
+  border-top: solid 2px #444;
+  color: #555;
+  font-size: 12px;
+  margin-top: 30px;
+  padding: 12px 0px 12px 0px;
+  text-align: right;
+}
+
+/* Uncomment and fill the blanks with whatever you like! */
+body {
+  /* margin: ?; */
+  /* max-width: ?; */
+  /* line-height: ?; */
+  /* font-size: ?; */
+  /* color: ?; */
+  /* padding: ? */
+}
+
+/* 
+  Now add any other styling you like here
+*/
