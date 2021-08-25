@@ -43,3 +43,8 @@ h1 {
 /* 
   Now add any other styling you like here
 */
+
+h1 {
+  text-align: center;
+  color: red;
+}
