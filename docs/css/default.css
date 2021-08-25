@@ -36,6 +36,13 @@ body {
   /* padding: ? */
 }
 
+h1 {
+  text-align: center;
+}
+nav {
+  background-color: rgb(131, 245, 0);
+  overflow: hidden;
+}
 /* 
   Now add any other styling you like here
 */
