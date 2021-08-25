@@ -37,19 +37,125 @@
 <!-- Inside <pre> blocks all whitespace is preserved,  -->
 <!-- so we have to break our usual indentation pattern  -->
 <pre><code class="SQL">SELECT *
-FROM crime_scene_report;</code></pre>
+FROM crime_scene_report
+WHERE date = 20180115
+AND city='SQL City'
+AND type='murder';</code></pre>
         
         </li>
         <li>
-          <b>Useful information:</b> Too many rows to be useful. We'll need to change the query to filter the rows...
+          <b>Useful information:</b> description = 'Security footage shows that there were 2 witnesses. The first witness lives at the last house on "Northwestern Dr". The second witness, named Annabel, lives somewhere on "Franklin Ave".'
         </li>
         <li>
-          <b>New facts:</b> ?
+          <b>New facts:</b> 3, 4, 5
+        </li>
+        <li>
+          <b>New leads:</b> 2,3
+        </li>
+      </ul>
+    </li>
+    <li>
+      Find interview with Annabel on Franklin Ave
+      
+      <ul>
+        <li>
+          <b>Query:</b>
+<!-- Inside <pre> blocks all whitespace is preserved,  -->
+<!-- so we have to break our usual indentation pattern  -->
+<pre><code class="SQL">SELECT *
+FROM interview
+INNER JOIN person ON person.id = interview.person_id
+WHERE person.name LIKE 'Annabel%'
+AND address_street_name = 'Franklin Ave';</code></pre>
+        
+        </li>
+        <li>
+          <b>Useful information:</b> transcript = 'I saw the murder happen, and I recognized the killer from my gym when I was working out last week on January the 9th.'
+        </li>
+        <li>
+          <b>New facts:</b> 6,7
         </li>
         <li>
           <b>New leads:</b> ?
         </li>
       </ul>
+    
+    </li>
+    <li>
+      Find witness id on Northwestern Dr
+
+      <ul>
+        <li>
+          <b>Query:</b>
+<!-- Inside <pre> blocks all whitespace is preserved,  -->
+<!-- so we have to break our usual indentation pattern  -->
+<pre><code class="SQL">SELECT *
+FROM interview
+INNER JOIN person ON person.id = interview.person_id
+WHERE address_street_name = 'Northwestern Dr'
+ORDER BY address_number DESC
+LIMIT 1;</code></pre>
+        
+        </li>
+        <li>
+          <b>Useful information:</b> transcript = '	I heard a gunshot and then saw a man run out. He had a "Get Fit Now Gym" bag. The membership number on the bag started with "48Z". Only gold members have those bags. The man got into a car with a plate that included "H42W".'
+        </li>
+        <li>
+          <b>New facts:</b> 8-11
+        </li>
+        <li>
+          <b>New leads:</b> ?
+        </li>
+      </ul>
+    </li>
+    <li>
+      Investigate connection of running man to gym
+      Murderer was there on Jan 9th.
+      Running man has gold membership
+      Running man membership starts "48Z"
+
+      Find murderer
+
+      <b>Query:</b>
+      <!-- Inside <pre> blocks all whitespace is preserved,  -->
+      <!-- so we have to break our usual indentation pattern  -->
+<pre><code class="SQL">SELECT *
+FROM get_fit_now_check_in checkIn
+INNER JOIN get_fit_now_member mem ON checkIn.membership_id = mem.id
+INNER JOIN person p ON mem.person_id = p.id
+INNER JOIN drivers_license dl ON p.license_id = dl.id
+WHERE check_in_date = 20180109
+AND membership_id LIKE '48Z%'
+AND dl.plate_number LIKE '%H42W%';</code></pre>
+
+      Jeremy Bowers (67318)
+    </li>
+  
+    <li>
+<pre><code class="SQL">SELECT transcript
+FROM interview
+WHERE person_id = 67318;</code></pre>
+
+      transcript = I was hired by a woman with a lot of money. I don't know her name but I know she's around 5'5" (65") or 5'7" (67"). She has red hair and she drives a Tesla Model S. I know that she attended the SQL Symphony Concert 3 times in December 2017.
+    </li>
+
+    <li>
+
+      
+
+<pre><code class="SQL">SELECT p.name, COUNT(fb.event_id)
+FROM person p
+INNER JOIN drivers_license dl ON p.license_id = dl.id
+INNER JOIN income i ON i.ssn = p.ssn
+INNER JOIN facebook_event_checkin fb ON fb.person_id = p.id
+WHERE fb.event_name = 'SQL Symphony Concert'
+AND dl.car_model = 'Model S'
+AND dl.gender = 'female'
+AND dl.hair_color = 'red'
+AND dl.height >= 65
+AND dl.height <= 67
+AND dl.car_make = 'Tesla'
+GROUP BY p.name;</code></pre>
     </li>
   </ol>
 
